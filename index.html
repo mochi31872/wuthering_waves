@@ -13,12 +13,22 @@
     h1 {
       text-align: center;
     }
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #searchInput {
+      padding: 10px;
+      width: 200px;
+      font-size: 16px;
+    }
     .character {
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       margin-bottom: 20px;
       padding: 20px;
+      display: none;
     }
     .character h2 {
       margin-top: 0;
@@ -35,12 +45,32 @@
       font-weight: bold;
       margin-top: 15px;
     }
+    .name-list {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .name-list span {
+      margin: 0 10px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #007acc;
+    }
   </style>
 </head>
 <body>
-  <h1>명조 캐릭터 가이드</h1>
+  <h1>명조 캐릭터터 가이드</h1>
 
-  <div class="character">
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="캐릭터 이름 입력 (예: 인멸 방랑자)">
+  </div>
+
+  <div class="name-list">
+    <span onclick="searchCharacter('인멸 방랑자')">인멸 방랑자</span>
+    <span onclick="searchCharacter('양양')">양양</span>
+    <span onclick="searchCharacter('설지')">설지</span>
+  </div>
+
+  <div class="character" data-name="인멸 방랑자">
     <h2>인멸 방랑자</h2>
     <div class="section-title">스킬 우선도</div>
     <p>공명회로 &gt; 공명스킬 &gt; 평타 &gt; 해방 &gt; 변주스킬</p>
@@ -59,7 +89,7 @@
     <p>도기, 양양</p>
   </div>
 
-  <div class="character">
+  <div class="character" data-name="양양">
     <h2>양양</h2>
     <div class="section-title">스킬 우선도</div>
     <p>회로 &gt; 해방 &gt; 공명스킬 &gt; 변주스킬 &gt; 평타</p>
@@ -75,7 +105,7 @@
     <p>공명효율, 치피, 치확, 공격력, 일반공격 피해</p>
   </div>
 
-  <div class="character">
+  <div class="character" data-name="설지">
     <h2>설지</h2>
     <div class="section-title">스킬 우선도</div>
     <p>공명스킬 &gt; 해방 &gt; 회로 &gt; 변주스킬 &gt; 평타</p>
@@ -90,5 +120,32 @@
     <div class="section-title">추천 부옵</div>
     <p>HP, 공명효율, 방어력</p>
   </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const characters = document.querySelectorAll('.character');
+
+    function searchCharacter(name) {
+      characters.forEach(character => {
+        if (character.getAttribute('data-name') === name) {
+          character.style.display = 'block';
+        } else {
+          character.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const keyword = searchInput.value.trim();
+      if (!keyword) {
+        characters.forEach(c => c.style.display = 'none');
+        return;
+      }
+      characters.forEach(character => {
+        const name = character.getAttribute('data-name');
+        character.style.display = name.includes(keyword) ? 'block' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
